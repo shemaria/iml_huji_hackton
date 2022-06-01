@@ -66,3 +66,5 @@ if __name__ == '__main__':
 
     # Store model predictions over test set
     evaluate_and_export(estimator, test_X, "predictions.csv")
+
+    print("this is me")
