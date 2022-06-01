@@ -31,8 +31,6 @@ def load_data(filename: str):
     return features, labels
 
 
-
-
 def evaluate_and_export(estimator, X: np.ndarray, filename: str):
     """
     Export to specified file the prediction results of given estimator on given testset.
@@ -47,7 +45,8 @@ def evaluate_and_export(estimator, X: np.ndarray, filename: str):
     filename:
         path to store file at
     """
-    pd.DataFrame(estimator.predict(X), columns=["predicted_values"]).to_csv(filename, index=False)
+    pd.DataFrame(estimator.predict(X),
+                 columns=["predicted_values"]).to_csv(filename, index=False)
 
 
 if __name__ == '__main__':
@@ -59,7 +58,7 @@ if __name__ == '__main__':
 
     # Fit model over data
     estimator = AdaBoostClassifier(
-        base_estimator = DecisionTreeClassifier(random_state=0),
+        base_estimator=DecisionTreeClassifier(random_state=0),
         n_estimators=100,
         random_state=0)
     estimator.fit(train_X, train_y)
