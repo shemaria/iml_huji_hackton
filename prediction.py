@@ -98,6 +98,15 @@ def create_scatter_for_feature(X_feature: pd.DataFrame, prices, title,
     # fig.write_image(output_path + feature_name+".png")
 
 
+def find_in_str(s, words):
+    if type(s) != str:
+        return False
+    for w in words:
+        if s.find(w) != -1:
+            return True
+    return False
+
+
 def preprocess(df):
     df = df.rename(
         columns={" Hospital": "Hospital", " Form Name": "Form Name"})
@@ -106,6 +115,24 @@ def preprocess(df):
         [pd.get_dummies(df["Hospital"], columns="Hospital"),
          pd.get_dummies(df["Form Name"], columns="Form Name"),
          df], axis=1)
+
+    # Her2 preprocessing
+    set_pos = {"po", "PO", "Po", "2", "3", "+", "חיובי", 'בינוני', "Inter",
+               "Indeter", "indeter", "inter"}
+    set_neg = {"ne", "Ne", "NE", "eg", "no", "0", "1", "-", "שלילי"}
+    X["Her2"] = X["Her2"].astype(str)
+    X["Her2"] = X["Her2"].apply(
+        lambda x: 1 if find_in_str(x, set_pos) else x)
+    X["Her2"] = X["Her2"].apply(
+        lambda x: 0 if find_in_str(x, set_neg) else x)
+    X["Her2"] = X["Her2"].apply(
+        lambda x: 0 if type(x) == str else x)
+    # Age  preprocessing
+    X = X[0 < X["age"] < 120]
+    # Basic stage  preprocessing
+    X["Basic stage"] = X["Basic stage"].replace(
+        {'Null': 0, 'c - Clinical': 1, 'p - Pathological': 2,
+         'r - Reccurent': 3})
     print(X)
 
     return X
