@@ -53,7 +53,8 @@ if __name__ == '__main__':
     np.random.seed(0)
 
     # Load data and preprocess
-    X, y = load_data("../datasets/agoda_cancellation_train.csv")
+    full_data = pd.read_csv("./Mission 2 - Breast Cancer/train.feats.csv")
+    X, y = load_data("test.csv")
     train_X, test_X, train_y, test_y = train_test_split(X, y)
 
     # Fit model over data
