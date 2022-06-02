@@ -52,19 +52,26 @@ def evaluate_and_export(estimator, X: np.ndarray, filename: str):
 if __name__ == '__main__':
     np.random.seed(0)
 
+
     # Load data and preprocess
     full_data = pd.read_csv("./Mission 2 - Breast Cancer/train.feats.csv")
-    X, y = load_data("test.csv")
-    train_X, test_X, train_y, test_y = train_test_split(X, y)
+    full_data.rename(columns=lambda x: x.replace('אבחנה-', ''), inplace=True)
+    for feature in full_data.columns:
+        print(feature)
+
+    for feature in full_data.columns:
+        print(feature)
+        print(full_data[feature].unique())
+
 
     # Fit model over data
-    estimator = AdaBoostClassifier(
-        base_estimator=DecisionTreeClassifier(random_state=0),
-        n_estimators=100,
-        random_state=0)
-    estimator.fit(train_X, train_y)
-
-    # Store model predictions over test set
-    evaluate_and_export(estimator, test_X, "predictions.csv")
+    # estimator = AdaBoostClassifier(
+    #     base_estimator=DecisionTreeClassifier(random_state=0),
+    #     n_estimators=100,
+    #     random_state=0)
+    # estimator.fit(train_X, train_y)
+    #
+    # # Store model predictions over test set
+    # evaluate_and_export(estimator, test_X, "predictions.csv")
 
     print("this is me")
